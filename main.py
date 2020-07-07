@@ -1,5 +1,3 @@
-import jmespath
-import json
 import requests
 
 url = requests.get('https://employeeservice002.herokuapp.com/v2/api-docs')
