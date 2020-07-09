@@ -8,9 +8,13 @@ from collections import namedtuple
 from rich import box
 from contextlib import contextmanager
 import time
+from rich.measure import Measurement
+from rich.text import Text
+from contextlib import contextmanager
+import time
 
 
-url = requests.get('http://petstore.swagger.io/v2/swagger.json')
+url = requests.get('https://projectservice02.herokuapp.com/v2/api-docs')
 urlLink = url.json()
 
 description = urlLink['info']['description']
@@ -21,7 +25,7 @@ for tags in urlLink['tags']:
 
 finalList = []
 def getPaths():
-    url = requests.get('http://petstore.swagger.io/v2/swagger.json')
+    url = requests.get('https://projectservice02.herokuapp.com/v2/api-docs')
     urlLink = url.json()
     for key, value in urlLink['paths'].items():
         getChildPath(key,value)
@@ -35,14 +39,13 @@ def getChildPath(parentkey, data):
         shape['path']= parentkey
         shape['request_methods']= key
         shape['description']= value['summary']
-        shape['tag'] = value['tags'][0] 
+        shape['tag'] = value['tags'][0]
+        # shape['data_type'] = [] if not value['parameters'] else value['parameters'][0]
         final(shape)
     
     return 
 
 def final(shape):
-    # for t in finalList:
-       # print(t)
     finalList.append(shape)
     
 
@@ -52,25 +55,62 @@ getPaths()
 
 console = Console()
 
-table = Table(show_header=True, header_style="bold magenta", title=description, title_style="green", box=box.HEAVY, border_style="bright_green")
-table.add_column("Request Method")
-table.add_column("Path", justify="right")
-table.add_column("Description", justify="right")
-table.add_column("Tag", justify="right")
+BEAT_TIME = 0.04
+
+@contextmanager
+def beat(length: int = 1) -> None:
+    with console:
+        console.clear()
+        yield
+    time.sleep(length * BEAT_TIME)
 
 
-for row in finalList:
-   
-    table.add_row(
-    "[red]" + row['request_methods'] +"[/red]",
-    "[cyan]" + row['path'] + "[/cyan]",
-    "[blue]" + row['description'] + "[/blue]",
-    "[green]" + row['tag'] + "[/green]"
-    )
+table = Table(show_header=True, header_style="bold magenta", title_style="green", box=box.HEAVY, border_style="bright_green")
 
-console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
+console.clear()
+console.show_cursor(False)
 
+try:
+    table.add_column("Request Method")
+    with beat(10):
+        console.print(table, justify="center")
 
+    table.add_column("Path")
+    with beat(10):
+        console.print(table, justify="center")
 
+    table.add_column("Description")
+    with beat(10):
+        console.print(table, justify="center")
 
+    table.add_column("Controller")
+    with beat(10):
+        console.print(table, justify="center")
 
+    #  table.add_column("Data Type")
+    #   with beat(10):
+    #     console.print(table, justify="center")
+
+    table.title = description
+    with beat(10):
+        console.print(table, justify="center")
+    
+    table_width = Measurement.get(console, table, console.width).maximum
+
+    # print(finalList)
+    for row in finalList:
+    
+        table.add_row(
+        "[red]" + row['request_methods'] +"[/red]",
+        "[cyan]" + row['path'] + "[/cyan]",
+        "[blue]" + row['description'] + "[/blue]",
+        "[green]" + row['tag'] + "[/green]"
+        # row['data_type']
+        )
+        with beat(10):
+            console.print(table, justify="center")
+
+    console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
+
+finally:
+    console.show_cursor(True)
