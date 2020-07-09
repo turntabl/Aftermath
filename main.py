@@ -10,7 +10,7 @@ from contextlib import contextmanager
 import time
 
 
-url = requests.get('http://petstore.swagger.io/v2/swagger.json')
+url = requests.get('https://petstore.swagger.io/v2/swagger.json')
 urlLink = url.json()
 
 description = urlLink['info']['description']
@@ -36,6 +36,11 @@ def getChildPath(parentkey, data):
         shape['request_methods']= key
         shape['description']= value['summary']
         shape['tag'] = value['tags'][0] 
+        data_type = rowObject = [] if not value['parameters'] else value['parameters'][0]
+        if "type" in rowObject:
+            shape['data_type'] = rowObject['type']
+        else:
+            shape['data_type'] = '---'
         final(shape)
     
     return 
@@ -57,6 +62,7 @@ table.add_column("Request Method")
 table.add_column("Path", justify="right")
 table.add_column("Description", justify="right")
 table.add_column("Tag", justify="right")
+table.add_column("Type", justify="right")
 
 
 for row in finalList:
@@ -65,7 +71,9 @@ for row in finalList:
     "[red]" + row['request_methods'] +"[/red]",
     "[cyan]" + row['path'] + "[/cyan]",
     "[blue]" + row['description'] + "[/blue]",
-    "[green]" + row['tag'] + "[/green]"
+    "[green]" + row['tag'] + "[/green]",
+    "[yellow]" + row['data_type'] + "[/yellow]",
+
     )
 
 console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
