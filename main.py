@@ -52,7 +52,7 @@ getPaths()
 
 console = Console()
 
-table = Table(show_header=True, header_style="bold magenta", title=description, title_style="green", box=box.HEAVY)
+table = Table(show_header=True, header_style="bold magenta", title=description, title_style="green", box=box.HEAVY, border_style="bright_green")
 table.add_column("Request Method")
 table.add_column("Path", justify="right")
 table.add_column("Description", justify="right")
