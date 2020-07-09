@@ -6,9 +6,11 @@ from rich.console import Console
 from rich.table import Column, Table
 from collections import namedtuple
 from rich import box
+from contextlib import contextmanager
+import time
 
 
-url = requests.get('https://employeeservice002.herokuapp.com/v2/api-docs')
+url = requests.get('http://petstore.swagger.io/v2/swagger.json')
 urlLink = url.json()
 
 description = urlLink['info']['description']
@@ -19,7 +21,7 @@ for tags in urlLink['tags']:
 
 finalList = []
 def getPaths():
-    url = requests.get('https://employeeservice002.herokuapp.com/v2/api-docs')
+    url = requests.get('http://petstore.swagger.io/v2/swagger.json')
     urlLink = url.json()
     for key, value in urlLink['paths'].items():
         getChildPath(key,value)
@@ -40,7 +42,7 @@ def getChildPath(parentkey, data):
 
 def final(shape):
     # for t in finalList:
-    #     print(t)
+       # print(t)
     finalList.append(shape)
     
 
@@ -56,18 +58,18 @@ table.add_column("Path", justify="right")
 table.add_column("Description", justify="right")
 table.add_column("Tag", justify="right")
 
-print(finalList)
+
 for row in finalList:
    
     table.add_row(
-    row['request_methods'],
-    row['path'],
-    row['description'],
-    row['tag']
+    "[red]" + row['request_methods'] +"[/red]",
+    "[cyan]" + row['path'] + "[/cyan]",
+    "[blue]" + row['description'] + "[/blue]",
+    "[green]" + row['tag'] + "[/green]"
     )
 
-console.print(table)
-    
+console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
+
 
 
 
