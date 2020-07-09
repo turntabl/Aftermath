@@ -14,7 +14,7 @@ from contextlib import contextmanager
 import time
 
 
-url = requests.get('https://projectservice02.herokuapp.com/v2/api-docs')
+url = requests.get('https://petstore.swagger.io/v2/swagger.json')
 urlLink = url.json()
 
 description = urlLink['info']['description']
@@ -25,7 +25,7 @@ for tags in urlLink['tags']:
 
 finalList = []
 def getPaths():
-    url = requests.get('https://projectservice02.herokuapp.com/v2/api-docs')
+    url = requests.get('https://petstore.swagger.io/v2/swagger.json')
     urlLink = url.json()
     for key, value in urlLink['paths'].items():
         getChildPath(key,value)
@@ -39,8 +39,12 @@ def getChildPath(parentkey, data):
         shape['path']= parentkey
         shape['request_methods']= key
         shape['description']= value['summary']
-        shape['tag'] = value['tags'][0]
-        # shape['data_type'] = [] if not value['parameters'] else value['parameters'][0]
+        shape['tag'] = value['tags'][0] 
+        data_type = rowObject = [] if not value['parameters'] else value['parameters'][0]
+        if "type" in rowObject:
+            shape['data_type'] = rowObject['type']
+        else:
+            shape['data_type'] = '---'
         final(shape)
     
     return 
@@ -87,9 +91,9 @@ try:
     with beat(10):
         console.print(table, justify="center")
 
-    #  table.add_column("Data Type")
-    #   with beat(10):
-    #     console.print(table, justify="center")
+    table.add_column("Data Type")
+    with beat(10):
+        console.print(table, justify="center")
 
     table.title = description
     with beat(10):
@@ -104,13 +108,14 @@ try:
         "[red]" + row['request_methods'] +"[/red]",
         "[cyan]" + row['path'] + "[/cyan]",
         "[blue]" + row['description'] + "[/blue]",
-        "[green]" + row['tag'] + "[/green]"
+        "[green]" + row['tag'] + "[/green]",
+        "[yellow]" + row['data_type'] + "[/yellow]"
         # row['data_type']
         )
         with beat(10):
             console.print(table, justify="center")
 
-    console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
+    # console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
 
 finally:
     console.show_cursor(True)
