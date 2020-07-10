@@ -1,17 +1,16 @@
 import requests
-from collections import defaultdict
 import json
+import time
 
+from collections import defaultdict
 from rich.console import Console
 from rich.table import Column, Table
 from collections import namedtuple
 from rich import box
 from contextlib import contextmanager
-import time
 from rich.measure import Measurement
 from rich.text import Text
 from contextlib import contextmanager
-import time
 
 
 url = requests.get('https://petstore.swagger.io/v2/swagger.json')
@@ -30,7 +29,7 @@ def getPaths():
     for key, value in urlLink['paths'].items():
         getChildPath(key,value)
 
-    return None
+    return 
 
 def getChildPath(parentkey, data):
 
@@ -98,14 +97,26 @@ try:
     table.title = description
     with beat(10):
         console.print(table, justify="center")
+
+    table.caption = "Aftermath: turntabl swagger cli"
+    with beat(10):
+        console.print(table, justify="center")
+
+    table.caption = "Aftermath: [b]turntabl swagger cli[/b]"
+    with beat(10):
+        console.print(table, justify="center")
+
+    table.caption = "Aftermath: [b magenta not dim]turntabl swagger cli[/]"
+    with beat(10):
+        console.print(table, justify="center")
     
-    table_width = Measurement.get(console, table, console.width).maximum
+    # table_width = Measurement.get(console, table, console.width).maximum
 
     # print(finalList)
     for row in finalList:
     
         table.add_row(
-        "[red]" + row['request_methods'] +"[/red]",
+         row['request_methods'],
         "[cyan]" + row['path'] + "[/cyan]",
         "[blue]" + row['description'] + "[/blue]",
         "[green]" + row['tag'] + "[/green]",
