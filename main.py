@@ -38,10 +38,19 @@ def getChildPath(parentkey, data):
         shape['path']= parentkey
         shape['request_methods']= key
         shape['description']= value['summary']
-        shape['tag'] = value['tags'][0] 
-        data_type = rowObject = [] if not value['parameters'] else value['parameters'][0]
-        if "type" in rowObject:
-            shape['data_type'] = rowObject['type']
+        shape['tag'] = value['tags'][0]
+        # if not value['parameters']:
+        #     shape['data_type'] = '---'
+        # else:
+        #     rowObject =[]
+        #     shape['data_type'] = value['parameters'][0]
+
+        if "parameters" in value:
+            rowObject = [] if not value['parameters'] else value['parameters'][0]
+            if "type" in rowObject:
+                shape['data_type'] = rowObject['type']
+            else:
+                shape['data_type'] = '---'
         else:
             shape['data_type'] = '---'
         final(shape)
