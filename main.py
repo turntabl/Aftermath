@@ -32,25 +32,20 @@ def getPaths():
     return 
 
 def getChildPath(parentkey, data):
-
+    ran = False
     for key, value in data.items():
         shape = {}
         shape['path']= parentkey
         shape['request_methods']= key
         shape['description']= value['summary']
         shape['tag'] = value['tags'][0]
-        # if not value['parameters']:
-        #     shape['data_type'] = '---'
-        # else:
-        #     rowObject =[]
-        #     shape['data_type'] = value['parameters'][0]
-
-        if "parameters" in value:
+        if "parameters" in value and not ran:
             rowObject = [] if not value['parameters'] else value['parameters'][0]
             if "type" in rowObject:
                 shape['data_type'] = rowObject['type']
             else:
                 shape['data_type'] = '---'
+            ran 
         else:
             shape['data_type'] = '---'
         final(shape)
@@ -125,12 +120,11 @@ try:
     for row in finalList:
     
         table.add_row(
-         row['request_methods'],
+        row['request_methods'],
         "[cyan]" + row['path'] + "[/cyan]",
         "[blue]" + row['description'] + "[/blue]",
         "[green]" + row['tag'] + "[/green]",
         "[yellow]" + row['data_type'] + "[/yellow]"
-        # row['data_type']
         )
         with beat(10):
             console.print(table, justify="center")
