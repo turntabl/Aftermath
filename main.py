@@ -15,7 +15,7 @@ from rich.text import Text
 from contextlib import contextmanager
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', required=True)
+parser.add_argument('-url', required=True)
 args = parser.parse_args()
 url = requests.get(f'{args.url}')
 urlLink = url.json()
