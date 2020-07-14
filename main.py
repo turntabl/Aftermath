@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 import requests
 import json
 import time
+import argparse
 
 from collections import defaultdict
 from rich.console import Console
@@ -12,9 +14,10 @@ from rich.measure import Measurement
 from rich.text import Text
 from contextlib import contextmanager
 
-
-url = requests.get('https://petstore.swagger.io/v2/swagger.json')
-urlLink = url.json()
+parser = argparse.ArgumentParser()
+parser.add_argument('-url', required=True)
+args = parser.parse_args()
+url = requests.get(f'{args.url}')
 
 description = urlLink['info']['description']
 
@@ -24,41 +27,36 @@ for tags in urlLink['tags']:
 
 finalList = []
 def getPaths():
-    url = requests.get('https://petstore.swagger.io/v2/swagger.json')
-    urlLink = url.json()
     for key, value in urlLink['paths'].items():
         getChildPath(key,value)
 
     return 
 
 def getChildPath(parentkey, data):
-    ran = False
+
     for key, value in data.items():
-        shape = {}
-        shape['path']= parentkey
-        shape['request_methods']= key
-        shape['description']= value['summary']
-        shape['tag'] = value['tags'][0]
+        jsonData = {}
+        jsonData['path'] = parentkey
+        jsonData['request_methods'] = key
+        jsonData['description'] = value['summary']
+        jsonData['tag'] = value['tags'][0]
         if "parameters" in value and not ran:
             rowObject = [] if not value['parameters'] else value['parameters'][0]
             if "type" in rowObject:
-                shape['data_type'] = rowObject['type']
+                jsonData['data_type'] = rowObject['type']
             else:
-                shape['data_type'] = '---'
+                jsonData['data_type'] = '---'
             ran 
         else:
-            shape['data_type'] = '---'
-        final(shape)
+           jsonData['data_type'] = '---'
+        final(jsonData)
     
     return 
 
-def final(shape):
-    finalList.append(shape)
+def final(jsonData):
+    finalList.append(jsonData)
     
-
 getPaths()
-# print(json.dumps(finalList, indent=4, sort_keys=True))
-
 
 console = Console()
 
@@ -70,7 +68,6 @@ def beat(length: int = 1) -> None:
         console.clear()
         yield
     time.sleep(length * BEAT_TIME)
-
 
 table = Table(show_header=True, header_style="bold magenta", title_style="green", box=box.HEAVY, border_style="bright_green")
 
@@ -114,9 +111,6 @@ try:
     with beat(10):
         console.print(table, justify="center")
     
-    # table_width = Measurement.get(console, table, console.width).maximum
-
-    # print(finalList)
     for row in finalList:
         if row['request_methods'] == "post":
             method_color = "[green]" + row['request_methods'] + "[/green]" + (":postbox:")
@@ -139,8 +133,6 @@ try:
         )
         with beat(10):
             console.print(table, justify="center")
-
-    # console.print(":smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: :smiley: :thumbs_up::smiley: :thumbs_up: ",table,":thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley: :thumbs_up: :smiley:")
 
 finally:
     console.show_cursor(True)
