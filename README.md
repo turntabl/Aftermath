@@ -1,1 +1,1 @@
-# command line swagger client:
+# command line swagger client
