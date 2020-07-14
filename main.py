@@ -118,13 +118,24 @@ try:
 
     # print(finalList)
     for row in finalList:
-    
+        if row['request_methods'] == "post":
+            method_color = "[green]" + row['request_methods'] + "[/green]" + (":postbox:")
+        
+        if row['request_methods'] == "get":
+            method_color = "[blue]" + row['request_methods'] + "[/blue]" + (":dart:")
+        
+        if row['request_methods'] == "put":
+            method_color = "[yellow]" + row['request_methods'] + "[/yellow]" + (":memo:")
+
+        if row['request_methods'] == "delete":
+            method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
+             
         table.add_row(
-        row['request_methods'],
-        "[cyan]" + row['path'] + "[/cyan]",
-        "[blue]" + row['description'] + "[/blue]",
-        "[green]" + row['tag'] + "[/green]",
-        "[yellow]" + row['data_type'] + "[/yellow]"
+        method_color,
+         row['path'],
+         row['description'],
+         row['tag'],
+         row['data_type']
         )
         with beat(10):
             console.print(table, justify="center")
