@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-url', required=True)
 args = parser.parse_args()
 url = requests.get(f'{args.url}')
+urlLink = url.json()
 
 description = urlLink['info']['description']
 
@@ -31,7 +32,7 @@ def getPaths():
     return 
 
 def getChildPath(parentkey, data):
-
+    ran = False
     for key, value in data.items():
         jsonData = {}
         jsonData['path'] = parentkey
@@ -57,9 +58,6 @@ def final(jsonData):
 getPaths()
 
 console = Console()
-
-
-
 
 table = Table(show_header=True, header_style="bold magenta", title_style="green", box=box.HEAVY, border_style="bright_green")
 
