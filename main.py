@@ -110,7 +110,6 @@ try:
         console.print(table, justify="center")
     
     for row in finalList:
-    
         table.add_row(
         row['request_methods'],
         "[cyan]" + row['path'] + "[/cyan]",
