@@ -5,7 +5,7 @@ A CLI for every service which exposes a Swagger specification endpoint.
 
 ## Demo
 
-![Alt Text](https://github.com/turntabl/demo.gif)
+![Alt Text](https://github.com/turntabl/aftermath/blob/master/demo.gif)
 
 ### Usage
 
