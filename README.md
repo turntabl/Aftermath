@@ -1,7 +1,5 @@
 # Command line swagger client
 
-# OpenCLI
-
 A CLI for every service which exposes a Swagger specification endpoint.
 
 
