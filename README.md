@@ -11,7 +11,7 @@ A CLI for every service which exposes a Swagger specification endpoint.
 
 To start a CLI session run:
 
-    python3 main.py -url <swagger-spec-url>
+    python main.py -url <swagger-spec-url>
 
 e.g:
 
