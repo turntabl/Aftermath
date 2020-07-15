@@ -2,12 +2,13 @@
 
 A CLI for every service which exposes a Swagger specification endpoint.
 
+### Install libraries
+Run the below commands in your terminal to install the libraries
 
-## Demo
+    cd Aftermath
+    pip3 install -r requirements.txt
 
-![Alt Text](https://github.com/turntabl/aftermath/blob/master/demo.gif)
-
-### Usage
+### Run app
 
 To start a CLI session run:
 
@@ -16,6 +17,11 @@ To start a CLI session run:
 e.g:
 
     python main.py -url http://petstore.swagger.io/v2/swagger.json
+
+
+### Demo
+
+![Alt Text](https://github.com/turntabl/aftermath/blob/master/demo.gif)
 
 Credits
 -------
