@@ -59,27 +59,26 @@ getPaths()
 
 console = Console()
 
-table = Table(show_header=True, header_style="bold magenta", title_style="green", box=box.HEAVY, border_style="bright_green")
+table = Table(
+        show_header=True,
+        header_style="bold magenta", 
+        title_style="green", 
+        box=box.HEAVY,
+        border_style="bright_green")
 
 console.show_cursor(False)
 
 try:
     table.add_column("Request Method")
-
     table.add_column("Path")
-
     table.add_column("Description")
-
     table.add_column("Controller")
-
     table.add_column("Data Type")
 
     table.title = description
 
     table.caption = "Aftermath: turntabl swagger cli"
-
     table.caption = "Aftermath: [b]turntabl swagger cli[/b]"
-
     table.caption = "Aftermath: [b magenta not dim]turntabl swagger cli[/]"
     
     for row in finalList:
