@@ -61,36 +61,26 @@ console = Console()
 
 table = Table(show_header=True, header_style="bold magenta", title_style="green", box=box.HEAVY, border_style="bright_green")
 
-console.clear()
 console.show_cursor(False)
 
 try:
     table.add_column("Request Method")
-    console.print(table, justify="center")
 
     table.add_column("Path")
-    console.print(table, justify="center")
 
     table.add_column("Description")
-    console.print(table, justify="center")
 
     table.add_column("Controller")
-    console.print(table, justify="center")
 
     table.add_column("Data Type")
-    console.print(table, justify="center")
 
     table.title = description
-    console.print(table, justify="center")
 
     table.caption = "Aftermath: turntabl swagger cli"
-    console.print(table, justify="center")
 
     table.caption = "Aftermath: [b]turntabl swagger cli[/b]"
-    console.print(table, justify="center")
 
     table.caption = "Aftermath: [b magenta not dim]turntabl swagger cli[/]"
-    console.print(table, justify="center")
     
     for row in finalList:
         if row['request_methods'] == "post":
@@ -112,7 +102,7 @@ try:
          row['tag'],
          row['data_type']
         )
-        console.print(table, justify="center")
+    console.print(table, justify="center")
 
 finally:
     console.show_cursor(True)
