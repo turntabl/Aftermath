@@ -40,9 +40,9 @@ def getChildPath(parentkey, data):
         jsonData['description'] = value['summary']
         jsonData['tag'] = value['tags'][0]
         if "parameters" in value and not ran:
-            rowObject = [] if not value['parameters'] else value['parameters'][0]
-            if "type" in rowObject:
-                jsonData['data_type'] = rowObject['type']
+            dataType = [] if not value['parameters'] else value['parameters'][0]
+            if "type" in dataType:
+                jsonData['data_type'] = dataType['type']
             else:
                 jsonData['data_type'] = '---'
             ran 
