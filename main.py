@@ -21,9 +21,12 @@ urlLink = url.json()
 description = urlLink['info']['description']
 
 taglists = {}
+tagDescription = {}
 for t in range(1, len(urlLink['tags']) + 1):
     for tag in urlLink['tags']:
-        taglists[tag['name']] = []
+        taglists[tag['name'] + ' - ' + tag['description']] = []
+        # tagDescription[tag['description']] = []
+
 
 finalList = []
 def getPaths():
@@ -64,9 +67,9 @@ console.show_cursor(False)
 
 try:
     for newRow in finalList:
-        for k,v in taglists.items():
-            if newRow['tag'] == k:
-                v.append(newRow)
+        for key, value in taglists.items():
+            if newRow['tag'] ==(key.split())[0]:
+                value.append(newRow)                
     
     console.print(urlLink['info']['description'], style="green")
     for tags, newfinalist in taglists.items():
@@ -95,6 +98,16 @@ try:
 
             if row['request_methods'] == "delete":
                 method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
+
+            if row['request_methods'] == "head":
+                method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":x:")
+
+            if row['request_methods'] == "patch":
+                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":x:")
+
+            if row['request_methods'] == "options":
+                method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":x:")
+
                 
             table.add_row(
             method_color,
