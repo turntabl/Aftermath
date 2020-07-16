@@ -20,9 +20,10 @@ urlLink = url.json()
 
 description = urlLink['info']['description']
 
-tagsList = []
-for tags in urlLink['tags']:
-    tagsList.append(tags['name'])
+taglists = {}
+for t in range(1, len(urlLink['tags']) + 1):
+    for tag in urlLink['tags']:
+        taglists[tag['name']] = []
 
 finalList = []
 def getPaths():
@@ -59,49 +60,49 @@ getPaths()
 
 console = Console()
 
-table = Table(
-        show_header=True,
-        header_style="bold magenta", 
-        title_style="green", 
-        box=box.HEAVY,
-        border_style="bright_green")
-
 console.show_cursor(False)
 
 try:
-    table.add_column("Request Method")
-    table.add_column("Path")
-    table.add_column("Description")
-    table.add_column("Controller")
-    table.add_column("Data Type")
-
-    table.title = description
-
-    table.caption = "Aftermath: turntabl swagger cli"
-    table.caption = "Aftermath: [b]turntabl swagger cli[/b]"
-    table.caption = "Aftermath: [b magenta not dim]turntabl swagger cli[/]"
+    for newRow in finalList:
+        for k,v in taglists.items():
+            if newRow['tag'] == k:
+                v.append(newRow)
     
-    for row in finalList:
-        if row['request_methods'] == "post":
-            method_color = "[green]" + row['request_methods'] + "[/green]" + (":postbox:")
-        
-        if row['request_methods'] == "get":
-            method_color = "[blue]" + row['request_methods'] + "[/blue]" + (":dart:")
-        
-        if row['request_methods'] == "put":
-            method_color = "[yellow]" + row['request_methods'] + "[/yellow]" + (":memo:")
+    console.print(urlLink['info']['description'], style="green")
+    for tags, newfinalist in taglists.items():
+        table = Table(
+            show_header=True,
+            header_style="bold magenta",
+            box=box.HEAVY,
+            border_style="bright_green")
 
-        if row['request_methods'] == "delete":
-            method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
-             
-        table.add_row(
-        method_color,
-         row['path'],
-         row['description'],
-         row['tag'],
-         row['data_type']
-        )
-    console.print(table, justify="center")
+        table.add_column("Request Method")
+        table.add_column("Path")
+        table.add_column("Description")
+        table.add_column("Data Type")
+
+        table.title = tags
+
+        for row in newfinalist:
+            if row['request_methods'] == "post":
+                method_color = "[green]" + row['request_methods'] + "[/green]" + (":postbox:")
+        
+            if row['request_methods'] == "get":
+                method_color = "[blue]" + row['request_methods'] + "[/blue]" + (":dart:")
+            
+            if row['request_methods'] == "put":
+                method_color = "[yellow]" + row['request_methods'] + "[/yellow]" + (":memo:")
+
+            if row['request_methods'] == "delete":
+                method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
+                
+            table.add_row(
+            method_color,
+            row['path'],
+            row['description'],
+            row['data_type']
+            )
+        console.print(table, justify="center")
 
 finally:
     console.show_cursor(True)
