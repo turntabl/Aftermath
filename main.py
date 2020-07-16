@@ -25,8 +25,6 @@ tagDescription = {}
 for t in range(1, len(urlLink['tags']) + 1):
     for tag in urlLink['tags']:
         taglists[tag['name'] + ' - ' + tag['description']] = []
-        # tagDescription[tag['description']] = []
-
 
 finalList = []
 def getPaths():
@@ -36,20 +34,18 @@ def getPaths():
     return 
 
 def getChildPath(parentkey, data):
-    ran = False
     for key, value in data.items():
         jsonData = {}
         jsonData['path'] = parentkey
         jsonData['request_methods'] = key
         jsonData['description'] = value['summary']
         jsonData['tag'] = value['tags'][0]
-        if "parameters" in value and not ran:
+        if "parameters" in value:
             dataType = [] if not value['parameters'] else value['parameters'][0]
             if "type" in dataType and dataType['in']== "path":
                 jsonData['data_type'] = dataType['type']
             else:
                 jsonData['data_type'] = '---'
-            ran 
         else:
            jsonData['data_type'] = '---'
         final(jsonData)
@@ -100,15 +96,14 @@ try:
                 method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
 
             if row['request_methods'] == "head":
-                method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":x:")
+                method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":dart:")
 
             if row['request_methods'] == "patch":
-                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":x:")
+                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":dart:")
 
             if row['request_methods'] == "options":
-                method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":x:")
-
-                
+                method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":dart:")
+             
             table.add_row(
             method_color,
             row['path'],
