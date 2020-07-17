@@ -96,13 +96,13 @@ try:
                 method_color = "[red]" + row['request_methods'] + "[/red]" + (":x:")
 
             if row['request_methods'] == "head":
-                method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":dart:")
+                method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":diamond_with_a_dot:")
 
             if row['request_methods'] == "patch":
-                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":dart:")
+                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":face_with_head_bandage:")
 
             if row['request_methods'] == "options":
-                method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":dart:")
+                method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":clipboard:")
              
             table.add_row(
             method_color,
