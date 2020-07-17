@@ -67,7 +67,7 @@ try:
             if newRow['tag'] ==(key.split())[0]:
                 value.append(newRow)                
     
-    console.print(urlLink['info']['description'], style="green")
+    console.print(urlLink['info']['description'], style="green", justify="center")
     for tags, newfinalist in taglists.items():
         table = Table(
             show_header=True,
@@ -99,7 +99,7 @@ try:
                 method_color = "[#9708e1]" + row['request_methods'] + "[#9708e1]" + (":diamond_with_a_dot:")
 
             if row['request_methods'] == "patch":
-                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":face_with_head_bandage:")
+                method_color = "[dim cyan]" + row['request_methods'] + "[/dim cyan]" + (":robot:")
 
             if row['request_methods'] == "options":
                 method_color = "[#2d08e1]" + row['request_methods'] + "[#2d08e1]" + (":clipboard:")
